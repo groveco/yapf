@@ -53,6 +53,10 @@ def Reformat(uwlines, verify=False, lines=None):
   indent_width = style.Get('INDENT_WIDTH')
 
   for uwline in _SingleOrMergedLines(uwlines):
+    if style.Get('PRESERVE_DICTIONARY_FORMATTING'):
+      for tok in uwline.tokens:
+        if tok.value == '{':
+          uwline.disable = True
     first_token = uwline.first
     _FormatFirstToken(first_token, uwline.depth, prev_uwline, final_lines)
 

@@ -163,6 +163,8 @@ _STYLE_HELP = dict(
         1 + 2*3 - 4/5
 
       """),
+    PRESERVE_DICTIONARY_FORMATTING=textwrap.dedent("""\
+      Preserve the formatting of any block that contains a dictionary."""),
     SPACE_BETWEEN_ENDING_COMMA_AND_CLOSING_BRACKET=textwrap.dedent("""\
       Insert a space between the ending comma and closing bracket of a list,
       etc."""),
@@ -279,6 +281,7 @@ def CreatePEP8Style():
       SPACE_BETWEEN_ENDING_COMMA_AND_CLOSING_BRACKET=True,
       SPACES_AROUND_POWER_OPERATOR=False,
       NO_SPACES_AROUND_SELECTED_BINARY_OPERATORS=set(),
+      PRESERVE_DICTIONARY_FORMATTING=False,
       SPACES_AROUND_DEFAULT_OR_NAMED_ASSIGN=False,
       SPACES_BEFORE_COMMENT=2,
       SPLIT_ARGUMENTS_WHEN_COMMA_TERMINATED=False,
@@ -346,12 +349,18 @@ def CreateFacebookStyle():
   style['SPLIT_BEFORE_BITWISE_OPERATOR'] = False
   return style
 
+def CreateGroveStyle():
+  style = CreatePEP8Style()
+  style['PRESERVE_DICTIONARY_FORMATTING'] = True
+  return style
+
 
 _STYLE_NAME_TO_FACTORY = dict(
     pep8=CreatePEP8Style,
     chromium=CreateChromiumStyle,
     google=CreateGoogleStyle,
     facebook=CreateFacebookStyle,
+    grove=CreateGroveStyle,
 )
 
 _DEFAULT_STYLE_TO_FACTORY = [
@@ -359,6 +368,7 @@ _DEFAULT_STYLE_TO_FACTORY = [
     (CreateFacebookStyle(), CreateFacebookStyle),
     (CreateGoogleStyle(), CreateGoogleStyle),
     (CreatePEP8Style(), CreatePEP8Style),
+    (CreateGroveStyle(), CreateGroveStyle),
 ]
 
 
@@ -424,6 +434,7 @@ _STYLE_OPTION_VALUE_CONVERTER = dict(
     INDENT_WIDTH=int,
     JOIN_MULTIPLE_LINES=_BoolConverter,
     NO_SPACES_AROUND_SELECTED_BINARY_OPERATORS=_StringSetConverter,
+    PRESERVE_DICTIONARY_FORMATTING=_BoolConverter,
     SPACE_BETWEEN_ENDING_COMMA_AND_CLOSING_BRACKET=_BoolConverter,
     SPACES_AROUND_POWER_OPERATOR=_BoolConverter,
     SPACES_AROUND_DEFAULT_OR_NAMED_ASSIGN=_BoolConverter,
